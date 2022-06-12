@@ -59,7 +59,7 @@ const DetailView = () => {
    const { id } = useParams()
 
    const [post, setPost] = useState({});
-   const { account } = useContext(DataContext)
+   const { account, enqueueSnackbar } = useContext(DataContext)
    const navigate = useNavigate();
 
    useEffect(() => {
@@ -74,6 +74,7 @@ const DetailView = () => {
       let res = await deletePost(id)
       if (res.data.success) {
          navigate('/');
+         enqueueSnackbar('Post Deleted', { variant: 'success' })
       }
    }
 

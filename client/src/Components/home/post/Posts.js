@@ -23,10 +23,10 @@ const Posts = () => {
    }, [category])
 
    return (
-      <Grid container style={{ marginTop: "4px" }}>
+      <>
          {
             posts && posts.length > 0 ? posts.map((post, ind) => (
-               <Grid key={post._id} item lg={3} md={4} sm={12}>
+               <Grid key={post._id} item lg={3} sm={4} xs={12}>
                   <Link to={`/detail/${post._id}`} style={{ color: "inherit", textDecoration: "none" }}>
                      <Post post={post} />
                   </Link>
@@ -36,7 +36,7 @@ const Posts = () => {
                :
                <Box>No data is there</Box>
          }
-      </Grid >
+      </ >
    )
 }
 

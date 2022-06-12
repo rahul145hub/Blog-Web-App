@@ -3,23 +3,23 @@ import { Box, Typography, styled } from '@mui/material'
 import { addElipsis } from '../../../utils/common-utils';
 
 const Container = styled(Box)`
-   border:1px solid #d3cede;
-   border-radius:10px;
-   margin:10px;
-   height:350px;
-   display:flex;
-   align-items:center;
-   flex-direction:column;
-   & > p{
-      padding:0 5px 5px 5px;
-   }
-   
+   border: 1px solid #d3cede;
+   border-radius: 10px;
+   margin: 10px;
+   display: flex;
+   align-items: center;
+   flex-direction: column;
+   height: 350px;
+   & > img, & > p {
+      padding: 0 5px 5px 5px;
+  }
 `;
 
 const Image = styled('img')({
    width: "100%",
    borderRadius: "10px 10px 0 0",
-   objectFit: "cover"
+   objectFit: "cover",
+   height: 150
 })
 
 const Text = styled(Typography)`

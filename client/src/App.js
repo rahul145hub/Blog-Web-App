@@ -10,6 +10,8 @@ import CreatePost from './Components/create/CreatePost';
 import UpdatePost from './Components/create/UpdatePost';
 import DetailView from './Components/details/DetailView';
 import Contact from './Components/contact/Contact';
+import { SnackbarProvider } from 'notistack';
+
 
 const PrivateRoute = ({ isAuthenticated, ...props }) => {
    return isAuthenticated ?
@@ -20,10 +22,9 @@ const PrivateRoute = ({ isAuthenticated, ...props }) => {
       : <Navigate replace to='/login' />
 }
 
-
-
-function App() {
+function MyApp() {
    const [isAuthenticated, isUserAuthenticated] = useState(false);
+
    return (
       <DataProvider>
          <BrowserRouter>
@@ -52,6 +53,20 @@ function App() {
       </DataProvider >
 
    );
+}
+
+function App() {
+   return (
+      <SnackbarProvider
+         maxSnack={3}
+         anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+         }}
+      >
+         <MyApp />
+      </SnackbarProvider >
+   )
 }
 
 export default App;

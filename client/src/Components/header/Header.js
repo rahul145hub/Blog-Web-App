@@ -1,6 +1,7 @@
 import { AppBar, Toolbar, styled } from '@mui/material'
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom';
+import { DataContext } from '../../Context/dataProvider';
 
 const Component = styled(AppBar)`
    background:#ffffff;
@@ -17,11 +18,12 @@ const Container = styled(Toolbar)`
 `
 
 const Header = () => {
+   const { enqueueSnackbar } = useContext(DataContext);
 
    const logout = async () => {
       sessionStorage.removeItem("accessToken")
       sessionStorage.removeItem("refreshToken")
-
+      enqueueSnackbar('logout', { variant: 'success' })
    }
 
    return (

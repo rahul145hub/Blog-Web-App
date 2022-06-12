@@ -54,7 +54,7 @@ const UpdatePost = () => {
    const [post, setPost] = useState(IntialPost);
    const [file, setFile] = useState('');
    const location = useLocation();
-   const { account } = useContext(DataContext)
+   const { account, enqueueSnackbar } = useContext(DataContext)
    const navigate = useNavigate()
    const { id } = useParams()
 
@@ -83,6 +83,7 @@ const UpdatePost = () => {
       let res = await blogUpdate(post, id)
       if (res.data.success) {
          navigate(`/detail/${id}`);
+         enqueueSnackbar('Post Updated', { variant: 'success' })
       }
    }
 

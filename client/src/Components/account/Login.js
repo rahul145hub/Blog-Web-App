@@ -3,7 +3,7 @@ import { Box, Button, TextField, styled, Typography } from '@mui/material'
 import { createUser, loginUser } from '../../service/api'
 import { DataContext } from '../../Context/dataProvider';
 import { useNavigate } from 'react-router-dom';
-import { SnackbarProvider, useSnackbar } from 'notistack';
+import { SnackbarProvider } from 'notistack';
 
 const Component = styled(Box)`
    width:400px;
@@ -61,9 +61,8 @@ function MyApp({ isUserAuthenticated }) {
    const [account, toggleAccount] = useState("signup");
    const [signup, setSignup] = useState(signupIntitialValues);
    const [login, setLogin] = useState(loginIntitialValues);
-   const { setAccount } = useContext(DataContext);
+   const { setAccount, enqueueSnackbar } = useContext(DataContext);
    const navigate = useNavigate();
-   const { enqueueSnackbar } = useSnackbar();
 
 
    const togglePage = () => {
@@ -86,6 +85,7 @@ function MyApp({ isUserAuthenticated }) {
       if (res.data.success) {
          setSignup(signupIntitialValues)
          togglePage();
+         enqueueSnackbar('Sigin Successfully', { variant: 'success' })
       } else {
          for (let i = 0; i < res.data.error.length; i++) {
             enqueueSnackbar(res.data.error[i], { variant: 'error' })
@@ -105,6 +105,7 @@ function MyApp({ isUserAuthenticated }) {
          sessionStorage.setItem('accessToken', `Bearer ${res.data.accessToken}`)
          sessionStorage.setItem('refreshToken', `Bearer ${res.data.refreshToken}`)
          setAccount({ email: res.data.email, name: res.data.name })
+         enqueueSnackbar('Login Successfully', { variant: 'success' })
       } else {
          for (let i = 0; i < res.data.error.length; i++) {
             enqueueSnackbar(res.data.error[i], { variant: 'error' })
@@ -155,7 +156,6 @@ const Login = ({ isUserAuthenticated }) => {
             vertical: 'top',
             horizontal: 'right',
          }}
-         hideIconVariant
       >
          <MyApp isUserAuthenticated={isUserAuthenticated} />
       </SnackbarProvider >
