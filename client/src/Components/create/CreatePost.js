@@ -84,10 +84,21 @@ const CreatePost = () => {
    console.log(post);
 
    const savePost = async () => {
+      if (post.title === "" || post.description === "") {
+         enqueueSnackbar('Title and Description can not be Empty.', { variant: 'error' })
+         enqueueSnackbar('Title should be unique.', { variant: 'error' })
+
+         return;
+      }
       let res = await blogPost(post)
+      console.log(res);
       if (res.data.success) {
          navigate("/")
          enqueueSnackbar('Post Created Successfully', { variant: 'success' })
+      } else {
+         for (let i = 0; i < res.data.error.length; i++) {
+            enqueueSnackbar(res.data.error[i], { variant: 'error' })
+         }
       }
    }
 
