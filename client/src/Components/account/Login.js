@@ -3,6 +3,7 @@ import { Box, Button, TextField, styled, Typography } from '@mui/material'
 import { createUser, loginUser } from '../../service/api'
 import { DataContext } from '../../Context/dataProvider';
 import { useNavigate } from 'react-router-dom';
+import { SnackbarProvider, useSnackbar } from 'notistack';
 
 const Component = styled(Box)`
    width:400px;
@@ -54,27 +55,21 @@ const loginIntitialValues = {
    password: ""
 }
 
-const Error = styled(Typography)`
-   font-size:13px;
-   color:red;
-   font-weight:600;
-`;
 
-const Login = ({ isUserAuthenticated }) => {
+function MyApp({ isUserAuthenticated }) {
    const imageURL = 'https://www.sesta.it/wp-content/uploads/2021/03/logo-blog-sesta-trasparente.png';
    const [account, toggleAccount] = useState("signup");
    const [signup, setSignup] = useState(signupIntitialValues);
    const [login, setLogin] = useState(loginIntitialValues);
-   const [error, setError] = useState('');
    const { setAccount } = useContext(DataContext);
    const navigate = useNavigate();
+   const { enqueueSnackbar } = useSnackbar();
 
 
    const togglePage = () => {
       toggleAccount(account === 'login' ? "signup" : "login")
       setSignup(signupIntitialValues);
       setLogin(loginIntitialValues);
-      setError('')
    }
 
    const onSigninInputChange = (e) => {
@@ -92,7 +87,9 @@ const Login = ({ isUserAuthenticated }) => {
          setSignup(signupIntitialValues)
          togglePage();
       } else {
-         setError('Something went Wrong')
+         for (let i = 0; i < res.data.error.length; i++) {
+            enqueueSnackbar(res.data.error[i], { variant: 'error' })
+         }
       }
    }
 
@@ -101,7 +98,7 @@ const Login = ({ isUserAuthenticated }) => {
       console.log(res);
       if (res.data?.success) {
          setLogin(loginIntitialValues)
-         setError('');
+
          navigate('/?category=All')
          isUserAuthenticated(true);
 
@@ -109,9 +106,12 @@ const Login = ({ isUserAuthenticated }) => {
          sessionStorage.setItem('refreshToken', `Bearer ${res.data.refreshToken}`)
          setAccount({ email: res.data.email, name: res.data.name })
       } else {
-         setError(res.error)
+         for (let i = 0; i < res.data.error.length; i++) {
+            enqueueSnackbar(res.data.error[i], { variant: 'error' })
+         }
       }
    }
+
 
    return (
       <Component>
@@ -123,7 +123,6 @@ const Login = ({ isUserAuthenticated }) => {
                      <>
                         <TextField label="Enter Email Id" name="email" value={login["email"]} onChange={onLogininInputChange} variant="standard" />
                         <TextField label="Enter Password" name="password" value={login["password"]} onChange={onLogininInputChange} variant="standard" type="password" />
-                        {error && <Error>**{error}**</Error >}
                         <LoginBtn variant="contained" onClick={loginUserClick}>Login</LoginBtn>
                         <Typography style={{ textAlign: "center", color: "#878787" }}>OR</Typography>
                         <SignupBtn variant="outlined" onClick={togglePage}>Create an account</SignupBtn>
@@ -134,7 +133,6 @@ const Login = ({ isUserAuthenticated }) => {
                         <TextField onChange={onSigninInputChange} name="email" value={signup["email"]} label="Enter Email Id" variant="standard" />
                         <TextField onChange={onSigninInputChange} name="password" value={signup["password"]} label="Enter Password" variant="standard" type="password" />
 
-                        {error && <Error>**{error}**</Error >}
                         <LoginBtn variant="contained" onClick={signupUser}>Signup</LoginBtn>
                         <Typography style={{ textAlign: "center", color: "#878787" }}>OR</Typography>
                         <SignupBtn variant="outlined" onClick={togglePage}>Already have an account</SignupBtn>
@@ -143,6 +141,24 @@ const Login = ({ isUserAuthenticated }) => {
             </Wrapper>
          </Box>
       </Component>
+   )
+
+}
+
+const Login = ({ isUserAuthenticated }) => {
+
+
+   return (
+      <SnackbarProvider
+         maxSnack={3}
+         anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+         }}
+         hideIconVariant
+      >
+         <MyApp isUserAuthenticated={isUserAuthenticated} />
+      </SnackbarProvider >
    )
 }
 

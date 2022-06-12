@@ -58,7 +58,7 @@ export const updatePost = async (req, res) => {
    } catch (error) {
       res.status(400).json({
          success: false,
-         error: ['Title should be unique.', 'Title and Description can not be Empty.', error.message]
+         error: ['Title should be unique.', 'Title and Description can not be Empty.']
       })
    }
 }

@@ -20,6 +20,8 @@ const PrivateRoute = ({ isAuthenticated, ...props }) => {
       : <Navigate replace to='/login' />
 }
 
+
+
 function App() {
    const [isAuthenticated, isUserAuthenticated] = useState(false);
    return (

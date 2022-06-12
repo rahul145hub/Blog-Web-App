@@ -2,9 +2,9 @@ import { Box, styled, Typography, Link } from '@mui/material';
 import { Email, LinkedIn } from '@mui/icons-material';
 
 const Banner = styled(Box)`
-    background-image: url(http://mrtaba.ir/image/bg2.jpg);
+    background-image: url(https://images.unsplash.com/photo-1543128639-4cb7e6eeef1b?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bGFwdG9wJTIwc2V0dXB8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80);
     width: 100%;
-    height: 50vh;
+    height: 60vh;
     background-position: left 0px top -100px;
     background-size: cover;
 `;
